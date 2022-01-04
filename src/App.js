@@ -1,11 +1,11 @@
 import './App.css';
+import Form from './component/Form';
+
 
 function App() {
   return (
     <div className="App">
-      <a className='btn btn-primary'>
-        HEEEEEEEEEEEE
-      </a>
+      <Form />
     </div>
   );
 }
