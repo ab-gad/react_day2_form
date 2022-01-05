@@ -2,24 +2,49 @@ import { useState } from "react";
 import Input from "./Input";
 
 const Form = () => {
-    const[email, setEmail]=useState('')
-    const[emailErr, setEmailErr]=useState(false)
-    const regex = {
-        pass : '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$',
-        mail : '[a-z0-9]+@[a-z]+\.[a-z]{2,3}'
+
+    const [formErr, setformErr] = useState(false)
+
+    const onsubmitHandler = (e) => {
+        e.preventDefault();
+        document.querySelector('.errMsg') ? setformErr(true) : setformErr(false)
+        console.log(formErr)
+        
+        //formErr || document.getElementById('myForm').submit() 
+
+
     }
 
-    const onchangeHandler = (e) => {    
-        setEmail(e.target.value) 
-        email.match(regex.mail) ? setEmailErr(true) : setEmailErr(false)
-        console.log(emailErr, email)
-    }
 
     return (
-        <form>
+        <form id="myForm" onSubmit={(e)=> {onsubmitHandler(e)}}>
             <h1 className="pb-4">Registeration Form:</h1>
-                <Input onchangeHandler={onchangeHandler} emailErr={emailErr}/>
-            <button type="submit" class="btn btn-primary">Submit</button>
+                <Input 
+                    type="text"
+                    label="Name:" 
+                    errMsg="the name must be more than 8 characters" 
+                    regex= '[a-zA-Z ]{8,30}'
+                />
+                <Input 
+                    type="email"
+                    label="Email Address:" 
+                    errMsg="wrong email (make sure to write a valid email)" 
+                    regex='[a-z0-9]+@[a-z]+\.[a-z]{2,3}'
+                />
+                <Input 
+                    type="text"
+                    label="User Name:" 
+                    errMsg="user name should contain no spaces" 
+                    regex='^[-\w\.\$@\*\!]{8,30}$'
+                />
+                <Input 
+                    type="password"
+                    label="Password:" 
+                    errMsg="wrong format (make you use at least number letter(lowercase and uppercase) and a special chars)" 
+                    regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"
+                />
+            <button type="submit" className="btn btn-primary">Submit</button>
+            {formErr && <div className="text-danger small">please make sure to enter valid information in all fields</div>} 
         </form>
     )
 }
