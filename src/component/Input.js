@@ -1,25 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const Input = (props) => {
     const {type, errMsg, regex, label} = props
 
     const[val, setVal]=useState('')
-    const[err, setErr]=useState(false)
+    const[err, setErr]=useState(true)
 
+    
     const onchangeHandler = (e) => {    
         setVal(e.target.value) 
-        val.match(regex) ? setErr(false) : setErr(true)
-        console.log(err, val)
+        console.log("ONCAHNGES",val)
     }
 
+    const handleErr = () => {
+        val.match(regex) ? setErr(false) : setErr(true)
+        console.log("EFFECT",err, val)
+    }
+
+    useEffect(()=>{ handleErr() })
+
     // Handling Repeated password input only
-    const[rPassErr, setrPassErr] = useState(false)
+    const[rPassErr, setrPassErr] = useState(true)
 
     const rPassHandler = (e) => {
-        console.log(e.target.value)
-        console.log(val)
-        
+        console.log("RPASS", val,e.target.value)
         e.target.value === val ? setrPassErr (false) : setrPassErr (true)
     }
 
@@ -30,6 +35,7 @@ const Input = (props) => {
                 <input
                     onChange={(e)=> onchangeHandler(e)}
                     type={type} 
+                    
                     className="form-control"
                     id={type} 
                 />

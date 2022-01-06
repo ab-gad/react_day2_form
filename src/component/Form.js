@@ -1,20 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "./Input";
 
 const Form = () => {
 
-    const [formErr, setformErr] = useState(false)
+    const [formErr, setformErr] = useState(true)
 
     const onsubmitHandler = (e) => {
         e.preventDefault();
         document.querySelector('.errMsg') ? setformErr(true) : setformErr(false)
-        console.log(formErr)
-        
-        //formErr || document.getElementById('myForm').submit() 
-
-
     }
 
+    useEffect(()=>{
+        formErr || document.getElementById('myForm').submit() 
+    },[formErr])
 
     return (
         <form id="myForm" onSubmit={(e)=> {onsubmitHandler(e)}}>
@@ -34,8 +32,8 @@ const Form = () => {
                 <Input 
                     type="text"
                     label="User Name:" 
-                    errMsg="user name should contain no spaces" 
-                    regex='^[-\w\.\$@\*\!]{8,30}$'
+                    errMsg="user name should be more than 5 characters and contain no spaces" 
+                    regex='^[-\w\.\$@\*\!]{5,30}$'
                 />
                 <Input 
                     type="password"
@@ -44,7 +42,7 @@ const Form = () => {
                     regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"
                 />
             <button type="submit" className="btn btn-primary">Submit</button>
-            {formErr && <div className="text-danger small">please make sure to enter valid information in all fields</div>} 
+            {/* {formErr && <div className="text-danger small">please make sure to enter valid information in all fields</div>}  */}
         </form>
     )
 }
